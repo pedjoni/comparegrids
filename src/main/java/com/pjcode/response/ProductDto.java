@@ -1,6 +1,7 @@
 package com.pjcode.response;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class ProductDto implements Serializable {
 	
@@ -9,6 +10,7 @@ public class ProductDto implements Serializable {
 	private Long id;
 	private String name;
 	private Long itemsAvailable;
+	private BigDecimal price;
 	
 	public Long getId() {
 		return id;
@@ -28,9 +30,15 @@ public class ProductDto implements Serializable {
 	public void setItemsAvailable(Long itemsAvailable) {
 		this.itemsAvailable = itemsAvailable;
 	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 	@Override
 	public String toString() {
 		return "ProductDto [id=" + id + ", name=" + name + ", itemsAvailable="
-				+ itemsAvailable + "]";
+				+ itemsAvailable + ", price=" + price + "]";
 	}
 }

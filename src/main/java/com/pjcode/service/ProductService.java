@@ -28,6 +28,7 @@ public class ProductService {
 			return false;
 		
 		existingProduct.setItemsAvailable(product.getItemsAvailable());
+		existingProduct.setPrice(product.getPrice());
 		
 		Product saved = repository.save(existingProduct);
 		if (saved == null) 

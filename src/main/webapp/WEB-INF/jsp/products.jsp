@@ -8,13 +8,13 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/ui.jqgrid-4.3.1.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/ui.jqgrid-4.4.3.css"/>'/>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/style.css"/>'/>
 	
 	<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui-1.8.16.custom.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/grid.locale-en-4.3.1.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery.jqGrid.min.4.3.1.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/grid.locale-en-4.4.3.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jquery.jqGrid.min.4.4.3.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/custom.js"/>'></script>
 	
 	<title>Product Records</title>
@@ -25,11 +25,12 @@
 		   	url:'${recordsUrl}',
 			datatype: 'json',
 			mtype: 'GET',
-		   	colNames:['Id', 'Product Name', 'Items Available'],
+		   	colNames:['Id', 'Product Name', 'Items Available', 'Price'],
 		   	colModel:[
-		   		{name:'id',index:'id', width:55, editable:false, editoptions:{readonly:true, size:10}, hidden:true},
+		   		{name:'id',index:'id', width:25, editable:false, editoptions:{readonly:true, size:10}, hidden:false},
 		   		{name:'name',index:'name', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
-		   		{name:'itemsAvailable',index:'itemsAvailable', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}}
+		   		{name:'itemsAvailable',index:'itemsAvailable', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
+		   		{name:'price',index:'price', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}}
 		   	],
 		   	postData: {},
 			rowNum:10,
@@ -104,6 +105,7 @@
 	function addRow() {
    		$("#grid").jqGrid('setColProp', 'name', {editoptions:{readonly:false, size:10}});
    		$("#grid").jqGrid('setColProp', 'itemsAvailable', {editrules:{required:true}});
+   		$("#grid").jqGrid('setColProp', 'price', {editrules:{required:true}});
    		
 		// Get the currently selected row
 		$('#grid').jqGrid('editGridRow','new',
@@ -117,7 +119,6 @@
 				    beforeShowForm: function(form) {
 			            $('#pData').hide();  
 			            $('#nData').hide();
-			            $('#password',form).addClass('ui-widget-content').addClass('ui-corner-all');
 				    },
 					beforeInitData: function(form) {},
 					closeAfterAdd: true,
@@ -148,7 +149,7 @@
 					}
 	    		});
 
-   		$("#grid").jqGrid('setColProp', 'password', {hidden: true});
+   		// $("#grid").jqGrid('setColProp', 'password', {hidden: true});
 	} // end of addRow
 
 
