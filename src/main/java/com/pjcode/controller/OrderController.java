@@ -163,6 +163,7 @@ public class OrderController {
 			newOrder.setQuantity(quantity);
 			newOrder.setRecievedDate(new Date());
 			newOrder.setStatus(OrderStatus.NEW.getCode());
+			newOrder.setComment("");
 			Boolean result = service.create(newOrder);
 			return new StatusResponse(result);
 		} else {

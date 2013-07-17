@@ -1,5 +1,6 @@
 package com.pjcode.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,6 +21,8 @@ public class OrderService {
 
 	@Autowired
 	private OrderRepository repository;
+	
+	public static final long PROCESSING_DELAY = 10*60*1000; //in milliseconds 
 	
 	public Boolean create(Order order) {
 		Order saved = repository.save(order);
@@ -64,6 +67,7 @@ public class OrderService {
 			return false;
 		
 		existingOrder.setStatus(OrderStatus.CANCELLED.getCode());
+		order.setComment("");
 		
 		Order saved = repository.save(existingOrder);
 		if (saved == null) 
@@ -77,7 +81,8 @@ public class OrderService {
 	 * Check all the Orders with the status NEW and if they are older then predefined
 	 * time (10 minutes) do the following:
 	 * - if order is for the product that is available change the status to PROCESSED
-	 * - if the order is for the product that either does not exits or quantity
+	 *   and decrease number of products available
+	 * - if the order is for the product that either does not exists or quantity
 	 *   of the available product is not enough, change the status to ERRORED
 	 * This method is called periodically (every 30 sec)
 	 * 
@@ -88,6 +93,22 @@ public class OrderService {
 		List<Order> orders = repository.findByStatus(OrderStatus.NEW.getCode());
 		logger.debug(orders.size() + " orders with the status NEW retrieved");
 		
+		Date timeNow = new Date();
+		
+		for (Order order : orders) {
+			if (timeNow.getTime() - order.getRecievedDate().getTime() > PROCESSING_DELAY) {
+				if (order.getQuantity() < order.getProduct().getItemsAvailable()) {
+					order.getProduct().setItemsAvailable(order.getProduct().getItemsAvailable() - order.getQuantity());
+					order.setStatus(OrderStatus.PROCESSED.getCode());
+					logger.debug("Status of the Order with the ID: " + order.getId() + " changed to PROCESSED");
+					order.setComment("");
+				} else {
+					order.setStatus(OrderStatus.ERRORED.getCode());
+					order.setComment("ERRORED: Not enough product available");
+					logger.error("Order received for product that has not enought items available. Order: " + order);
+				}
+			}
+		}
 		
 	}
 }

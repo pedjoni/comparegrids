@@ -26,6 +26,7 @@ public class Order {
 	private Long quantity;
 	private Integer status;
 	private Date recievedDate;
+	private String comment;
 	
 	public Order() {}
 	
@@ -65,11 +66,18 @@ public class Order {
 	public void setRecievedDate(Date recievedDate) {
 		this.recievedDate = recievedDate;
 	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", product=" + product + ", price=" + price
 				+ ", quantity=" + quantity + ", status=" + status
-				+ ", recievedDate=" + recievedDate + "]";
+				+ ", recievedDate=" + recievedDate + ", comment=" + comment
+				+ "]";
 	}
 }
