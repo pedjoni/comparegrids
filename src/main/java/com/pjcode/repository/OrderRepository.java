@@ -3,6 +3,7 @@ package com.pjcode.repository;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,5 +23,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	Page<Order> findByRecievedDate(Date recievedDate, Pageable pageable);
 	
 	Page<Order> findByStatus(Integer status, Pageable pageable);
+	
+	List<Order> findByStatus(Integer status);
 	
 }

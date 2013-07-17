@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.pjcode.domain.Order;
+import com.pjcode.domain.OrderStatus;
 import com.pjcode.domain.Product;
 import com.pjcode.repository.OrderRepository;
 import com.pjcode.repository.ProductRepository;
@@ -161,7 +162,7 @@ public class OrderController {
 			newOrder.setProduct(product);
 			newOrder.setQuantity(quantity);
 			newOrder.setRecievedDate(new Date());
-			newOrder.setStatus(1);
+			newOrder.setStatus(OrderStatus.NEW.getCode());
 			Boolean result = service.create(newOrder);
 			return new StatusResponse(result);
 		} else {
