@@ -109,7 +109,14 @@
 
 		// Toolbar Search
 		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
-	});
+		
+	var intervalId = setInterval(
+		function() {
+			$("#grid").trigger("reloadGrid",[{current:true}]); // current:true preserves the selection
+		},
+		30*1000
+	); // intervalId can be used to stop the grid reload later: clearInterval(intervalId);
+});
 
 	function addRow() {
    		$(this).jqGrid('setColProp', 'product.id', {hidden:false});

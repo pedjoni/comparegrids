@@ -36,16 +36,16 @@ public class OrderGenerator {
 	}
 
 	/**
-	 * Generate order for existing product with randomly generated quantity between 1 and 100 
+	 * Periodically generate order for existing product
 	 */
-	@Scheduled(fixedDelay=30000)
+	@Scheduled(fixedDelay=10000)
 	public void generateRandomOrders() {
 		logger.debug("generateOrders = " + generateOrders);
 		if (generateOrders) {
 			try {
 				
-				// wait some time
-				int waitTime = RandomUtils.nextInt(30);
+				// wait randomly between 1 and 300 seconds
+				int waitTime = RandomUtils.nextInt(300);
 				logger.debug("waiting for " + waitTime + " seconds");		
 				Thread.sleep(waitTime*1000);
 				
