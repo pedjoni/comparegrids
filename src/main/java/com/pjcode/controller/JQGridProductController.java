@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/jqgrid/products")
+public class JQGridProductController {
 	
 	@Autowired
 	private ProductRepository repository;
@@ -36,7 +36,7 @@ public class ProductController {
 	
 	@RequestMapping
 	public String getProductsPage() {
-		return "products";
+		return "jqgrid/products";
 	}
 	
 	@RequestMapping(value="/records", produces="application/json")

@@ -79,12 +79,13 @@ public class OrderService {
 	
 	/**
 	 * Check all the Orders with the status NEW and if they are older then predefined
-	 * time (10 minutes) do the following:
+	 * time (PROCESSING_DELAY) do the following:
 	 * - if order is for the product that is available change the status to PROCESSED
 	 *   and decrease number of products available
 	 * - if the order is for the product that either does not exists or quantity
-	 *   of the available product is not enough, change the status to ERRORED
-	 * This method is called periodically (every 30 sec)
+	 *   of the available product less than the one requested in the order, 
+	 *   change the status to ERRORED
+	 * This method is called periodically
 	 * 
 	 */
 	@Scheduled(fixedDelay=30000)

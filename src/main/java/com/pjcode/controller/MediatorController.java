@@ -9,6 +9,6 @@ public class MediatorController {
 
 	@RequestMapping
 	public String getHomePage() {
-		return "redirect:/products";
+		return "redirect:/jqgrid/products";
 	}
 }

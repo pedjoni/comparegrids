@@ -1,23 +1,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:url value="/products/records" var="recordsUrl"/>
-<c:url value="/products/create" var="addUrl"/>
-<c:url value="/products/update" var="editUrl"/>
-<c:url value="/products/delete" var="deleteUrl"/>
+<c:url value="/jqgrid/orders/records" var="recordsUrl"/>
+<c:url value="/jqgrid/orders/create" var="addUrl"/>
+<c:url value="/jqgrid/orders/update" var="editUrl"/>
+<c:url value="/jqgrid/orders/delete" var="deleteUrl"/>
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/ui.jqgrid-4.4.3.css"/>'/>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/style.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/ui.jqgrid-4.4.3.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/style.css"/>'/>
 	
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui-1.8.16.custom.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/grid.locale-en-4.4.3.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery.jqGrid.min.4.4.3.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/custom.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-1.6.4.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.8.16.custom.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/grid.locale-en-4.4.3.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery.jqGrid.min.4.4.3.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/custom.js"/>'></script>
 	
-	<title>Product Records</title>
+	<title>Order Records</title>
 	
 	<script type='text/javascript'>
 	$(function() {
@@ -25,12 +25,21 @@
 		   	url:'${recordsUrl}',
 			datatype: 'json',
 			mtype: 'GET',
-		   	colNames:['Id', 'Product Name', 'Items Available', 'Price'],
+		   	colNames:['Id', 'Product Id', 'Product Name', 'Price', 'Quantity', 'Date Received', 'Status'],
 		   	colModel:[
-		   		{name:'id',index:'id', width:25, editable:false, editoptions:{readonly:true, size:10}, hidden:false},
-		   		{name:'name',index:'name', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
-		   		{name:'itemsAvailable',index:'itemsAvailable', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
-		   		{name:'price',index:'price', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}}
+		   		{name:'id', index:'id', width:55, editable:false, editoptions:{readonly:true}, hidden:true},
+		   		{name:'product.id', index:'product.id', width:55, editable:true, editrules:{required:true}, editoptions:{size:10}, hidden:true},
+		   		{name:'product.name', index:'product.name', width:100, editable:false},
+		   		{name:'price', index:'price', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
+		   		{name:'quantity', index:'quantity', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
+		   		{name:'recievedDate', index:'recievedDate', width:100, editable:false, 
+		   			formatter: function (cellval, opts) {
+		   				var date = new Date(cellval);
+						opts = $.extend({}, $.jgrid.formatter.date, opts);
+						return $.fmatter.util.DateFormat("", date, 'd-M-Y', opts);
+					}
+				},
+		   		{name:'status', index:'status', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}, edittype:'select', formatter:'select', editoptions:{value:{1:'New',2:'Processed',3:'Canceled',4:'Errored'}}}
 		   	],
 		   	postData: {},
 			rowNum:10,
@@ -103,10 +112,8 @@
 	});
 
 	function addRow() {
-   		$("#grid").jqGrid('setColProp', 'name', {editoptions:{readonly:false, size:10}});
-   		$("#grid").jqGrid('setColProp', 'itemsAvailable', {editrules:{required:true}});
-   		$("#grid").jqGrid('setColProp', 'price', {editrules:{required:true}});
-   		
+   		$(this).jqGrid('setColProp', 'product.id', {hidden:false});
+   		$(this).jqGrid('setColProp', 'status', {editable:false, hidden:true});
 		// Get the currently selected row
 		$('#grid').jqGrid('editGridRow','new',
 	    		{ 	url: '${addUrl}', 
@@ -148,14 +155,14 @@
 						return [result.success, errors, newId];
 					}
 	    		});
+	    $(this).jqGrid('setColProp', 'product.id', {hidden:true});
+	    $(this).jqGrid('setColProp', 'status', {editable:true, hidden:false});
 
-   		// $("#grid").jqGrid('setColProp', 'password', {hidden: true});
 	} // end of addRow
 
 
 	function editRow() {
-   		$("#grid").jqGrid('setColProp', 'name', {editoptions:{readonly:true, size:10}});
-   		
+	
 		// Get the currently selected row
 		var row = $('#grid').jqGrid('getGridParam','selrow');
 		
@@ -231,7 +238,7 @@
 	          		serializeDelData: function (postdata) {
 		          	      var rowdata = $('#grid').getRowData(postdata.id);
 		          	      // append postdata with any information 
-		          	      return {id: postdata.id, oper: postdata.oper, name: rowdata.name};
+		          	      return {id: postdata.id, oper: postdata.oper};
 		          	},
 	          		afterSubmit : function(response, postdata) 
 					{ 
@@ -273,7 +280,7 @@
 </head>
 
 <body>
-	<h1 id='banner'>Product Inventory</h1>
+	<h1 id='banner'>Order Inventory</h1>
 	
 	<div id='jqgrid'>
 		<table id='grid'></table>

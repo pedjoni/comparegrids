@@ -41,6 +41,9 @@
 	
 	<bean id="deployProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean"
         p:location="/WEB-INF/spring.properties" />
+    
+    <bean id="orderGenerator" class="com.pjcode.service.OrderGenerator"
+	            p:generateOrders="${app.generateOrders}"/>    
         
             
 </beans>
