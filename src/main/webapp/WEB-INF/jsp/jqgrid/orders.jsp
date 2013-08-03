@@ -20,8 +20,9 @@
 	<title>Order Records</title>
 	
 	<script type='text/javascript'>
+	var grid11intvlId;
 	$(function() {
-		$("#grid").jqGrid({
+		$("#grid1").jqGrid({
 		   	url:'${recordsUrl}',
 			datatype: 'json',
 			mtype: 'GET',
@@ -47,7 +48,7 @@
 		   	height: 240,
 		   	autowidth: true,
 			rownumbers: true,
-		   	pager: '#pager',
+		   	pager: '#pager1',
 		   	sortname: 'id',
 		    viewrecords: true,
 		    sortorder: "asc",
@@ -66,7 +67,7 @@
 		    }
 		});
 
-		$("#grid").jqGrid('navGrid','#pager',
+		$("#grid1").jqGrid('navGrid','#pager1',
 				{edit:false, add:false, del:false, search:true},
 				{}, {}, {}, 
 				{ 	// search
@@ -77,7 +78,7 @@
 				}
 		);
 		
-		$("#grid").navButtonAdd('#pager',
+		$("#grid1").navButtonAdd('#pager1',
 				{ 	caption:"Add", 
 					buttonicon:"ui-icon-plus", 
 					onClickButton: addRow,
@@ -87,7 +88,7 @@
 				} 
 		);
 		
-		$("#grid").navButtonAdd('#pager',
+		$("#grid1").navButtonAdd('#pager1',
 				{ 	caption:"Edit", 
 					buttonicon:"ui-icon-pencil", 
 					onClickButton: editRow,
@@ -97,7 +98,7 @@
 				} 
 		);
 		
-		$("#grid").navButtonAdd('#pager',
+		$("#grid1").navButtonAdd('#pager1',
 			{ 	caption:"Delete", 
 				buttonicon:"ui-icon-trash", 
 				onClickButton: deleteRow,
@@ -108,21 +109,22 @@
 		);
 
 		// Toolbar Search
-		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
+		$("#grid1").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
 		
-	var intervalId = setInterval(
-		function() {
-			$("#grid").trigger("reloadGrid",[{current:true}]); // current:true preserves the selection
-		},
-		30*1000
-	); // intervalId can be used to stop the grid reload later: clearInterval(intervalId);
-});
+		clearInterval(grid11intvlId); //clear previous interval if it exist (when clicked, jquery tabs will reload content but won't clear any initiated interval )
+		grid11intvlId = setInterval(
+			function() {
+				$("#grid1").trigger("reloadGrid",[{current:true}]); // current:true preserves the selection
+			},
+			30*1000
+		); // intervalId can be used to stop the grid reload later: clearInterval(intervalId);
+	});
 
 	function addRow() {
    		$(this).jqGrid('setColProp', 'product.id', {hidden:false});
    		$(this).jqGrid('setColProp', 'status', {editable:false, hidden:true});
 		// Get the currently selected row
-		$('#grid').jqGrid('editGridRow','new',
+		$('#grid1').jqGrid('editGridRow','new',
 	    		{ 	url: '${addUrl}', 
 					editData: {},
 	                serializeEditData: function(data){ 
@@ -147,8 +149,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 				        }  else {
-				        	$('#msgbox').text('Entry has been added successfully');
-							$('#msgbox').dialog( 
+				        	$('#msgbox1').text('Entry has been added successfully');
+							$('#msgbox1').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -171,11 +173,11 @@
 	function editRow() {
 	
 		// Get the currently selected row
-		var row = $('#grid').jqGrid('getGridParam','selrow');
+		var row = $('#grid1').jqGrid('getGridParam','selrow');
 		
 		if( row != null ) {
 		
-			$('#grid').jqGrid('editGridRow', row,
+			$('#grid1').jqGrid('editGridRow', row,
 				{	url: '${editUrl}', 
 					editData: {},
 			        recreateForm: true,
@@ -196,8 +198,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 			            }  else {
-			            	$('#msgbox').text('Entry has been edited successfully');
-							$('#msgbox').dialog( 
+			            	$('#msgbox1').text('Entry has been edited successfully');
+							$('#msgbox1').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -212,8 +214,8 @@
 					}
 				});
 		} else {
-			$('#msgbox').text('You must select a record first!');
-			$('#msgbox').dialog( 
+			$('#msgbox1').text('You must select a record first!');
+			$('#msgbox1').dialog( 
 					{	title: 'Error',
 						modal: true,
 						buttons: {"Ok": function()  {
@@ -225,11 +227,11 @@
 	
 	function deleteRow() {
 		// Get the currently selected row
-	    var row = $('#grid').jqGrid('getGridParam','selrow');
+	    var row = $('#grid1').jqGrid('getGridParam','selrow');
 
 	    // A pop-up dialog will appear to confirm the selected action
 		if( row != null ) 
-			$('#grid').jqGrid( 'delGridRow', row,
+			$('#grid1').jqGrid( 'delGridRow', row,
 	          	{	url:'${deleteUrl}', 
 					recreateForm: true,
 				    beforeShowForm: function(form) {
@@ -243,7 +245,7 @@
 	          		reloadAfterSubmit:true,
 	          		closeAfterDelete: true,
 	          		serializeDelData: function (postdata) {
-		          	      var rowdata = $('#grid').getRowData(postdata.id);
+		          	      var rowdata = $('#grid1').getRowData(postdata.id);
 		          	      // append postdata with any information 
 		          	      return {id: postdata.id, oper: postdata.oper};
 		          	},
@@ -257,8 +259,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 			            }  else {
-			            	$('#msgbox').text('Entry has been deleted successfully');
-							$('#msgbox').dialog( 
+			            	$('#msgbox1').text('Entry has been deleted successfully');
+							$('#msgbox1').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -273,8 +275,8 @@
 					}
 	          	});
 		else {
-			$('#msgbox').text('You must select a record first!');
-			$('#msgbox').dialog( 
+			$('#msgbox1').text('You must select a record first!');
+			$('#msgbox1').dialog( 
 					{	title: 'Error',
 						modal: true,
 						buttons: {"Ok": function()  {
@@ -290,10 +292,10 @@
 	<h1 id='banner'>Order Inventory</h1>
 	
 	<div id='jqgrid'>
-		<table id='grid'></table>
-		<div id='pager'></div>
+		<table id='grid1'></table>
+		<div id='pager1'></div>
 	</div>
 	
-	<div id='msgbox' title='' style='display:none'></div>
+	<div id='msgbox1' title='' style='display:none'></div>
 </body>
 </html>
