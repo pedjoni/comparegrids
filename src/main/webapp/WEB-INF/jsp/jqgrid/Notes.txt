@@ -1,0 +1,8 @@
+Notes - JQGrid Based Implementation
+
+Issue #1: For displaying main menu, I wanted to use JQuery UI Tab with ajax content. In this scenario content for each tab will be loaded from separate URL. However that turned to have several drowbacks
+	- When more than one JQGrid is used, you have to ensure that each JQGrid is using unique set of IDs. It is not just one ID that is used for grid, but some other like #msgbox or #pager
+	- In one of the grid I was using setTimeout() to periodically reload the grid. With JQuery UI Tab, each time tab is clicked, it would add a new one setTimeout() but won't cancel old one, which would result in multiplicaiton of timeouts. I solved this issue by cancelling any existing timeout before new is started, but that had to include addition of a global variable, which was not ideal solution
+	- For coloring grid rows based on the status cell, I was using JQGrid functionality suppoerted by rowattr event, as described here: http://stackoverflow.com/questions/10529955/highlight-row-when-the-checkbox-is-true/10531680#10531680 
+	However, if I clicked on any other tab and come back, coloring functionality was not working any more (other grid functionality seems to be there)
+	- For all those reasons, I decided to use JQuery UI Tab wiht IFrames instead of loading content via ajax.

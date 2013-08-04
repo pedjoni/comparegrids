@@ -7,12 +7,12 @@
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.10.3.custom.css"/>'/>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/ui.jqgrid-4.4.3.css"/>'/>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/style.css"/>'/>
 	
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-1.6.4.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.8.16.custom.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.10.3.custom.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/grid.locale-en-4.4.3.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery.jqGrid.min.4.4.3.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/custom.js"/>'></script>
@@ -273,9 +273,9 @@
 </head>
 
 <body>
-	<h1 id='banner'>Product Inventory</h1>
+	<h1 id='banner2'>Product Inventory</h1>
 	
-	<div id='jqgrid'>
+	<div id='jqgrid2'>
 		<table id='grid2'></table>
 		<div id='pager2'></div>
 	</div>

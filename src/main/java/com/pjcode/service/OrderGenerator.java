@@ -45,7 +45,7 @@ public class OrderGenerator {
 			try {
 				
 				// wait randomly between 1 and 300 seconds
-				int waitTime = RandomUtils.nextInt(300);
+				int waitTime = RandomUtils.nextInt(100);
 				logger.debug("waiting for " + waitTime + " seconds");		
 				Thread.sleep(waitTime*1000);
 				

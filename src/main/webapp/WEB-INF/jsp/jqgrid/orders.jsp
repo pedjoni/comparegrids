@@ -7,12 +7,19 @@
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.10.3.custom.css"/>'/>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/ui.jqgrid-4.4.3.css"/>'/>
 	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/style.css"/>'/>
+	<style type="text/css">        
+        .newRow { background-color: #fff79a; background-image: none;}
+        .procRow { background-color: #a2ff99; background-image: none; }
+        .cancRow { color: #e60000; }
+        .errRow { background-color: #ffd1cc; color: #e60000; background-image: none;}
+    </style>
+	
 	
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-1.6.4.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.8.16.custom.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.10.3.custom.min.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/grid.locale-en-4.4.3.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery.jqGrid.min.4.4.3.js"/>'></script>
 	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/custom.js"/>'></script>
@@ -20,7 +27,6 @@
 	<title>Order Records</title>
 	
 	<script type='text/javascript'>
-	var grid11intvlId;
 	$(function() {
 		$("#grid1").jqGrid({
 		   	url:'${recordsUrl}',
@@ -50,6 +56,7 @@
 			rownumbers: true,
 		   	pager: '#pager1',
 		   	sortname: 'id',
+		   	gridview: true,
 		    viewrecords: true,
 		    sortorder: "asc",
 		    caption:"Records",
@@ -64,7 +71,18 @@
 		        repeatitems: false,
 		        cell: "cell",
 		        id: "id"
-		    }
+		    },
+		    rowattr: function (rd) {
+	            if (rd.status === 1) {
+	            	return {"class": "newRow"};
+	            } else if (rd.status === 2) {
+	                return {"class": "procRow"};
+	            } else if (rd.status === 3) {
+	                return {"class": "cancRow"};
+	            } else if (rd.status === 4) {
+	                return {"class": "errRow"};
+	            }
+	        }
 		});
 
 		$("#grid1").jqGrid('navGrid','#pager1',
@@ -111,12 +129,11 @@
 		// Toolbar Search
 		$("#grid1").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
 		
-		clearInterval(grid11intvlId); //clear previous interval if it exist (when clicked, jquery tabs will reload content but won't clear any initiated interval )
-		grid11intvlId = setInterval(
+		var grid1intvlId = setInterval(
 			function() {
 				$("#grid1").trigger("reloadGrid",[{current:true}]); // current:true preserves the selection
 			},
-			30*1000
+			10*1000
 		); // intervalId can be used to stop the grid reload later: clearInterval(intervalId);
 	});
 
@@ -289,9 +306,9 @@
 </head>
 
 <body>
-	<h1 id='banner'>Order Inventory</h1>
+	<h1 id='banner1'>Order Inventory</h1>
 	
-	<div id='jqgrid'>
+	<div id='jqgrid1'>
 		<table id='grid1'></table>
 		<div id='pager1'></div>
 	</div>

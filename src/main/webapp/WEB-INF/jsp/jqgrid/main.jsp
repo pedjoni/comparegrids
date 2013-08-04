@@ -7,10 +7,10 @@
 
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.8.16.custom.css"/>'/>
+  <link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.10.3.custom.css"/>'/>
 
   <script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-1.6.4.min.js"/>'></script>
-  <script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.8.16.custom.min.js"/>'></script>
+  <script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.10.3.custom.min.js"/>'></script>
 
   <title>Order Management - JQGrid</title>
   <script>
@@ -30,9 +30,11 @@
  
 <div id="tabs">
   <ul>
-    <li><a href="${ordersUrl}">Orders</a></li>
-    <li><a href="${productsUrl}">Products</a></li>
+    <li><a href="#tab1">Orders</a></li>
+    <li><a href="#tab2">Products</a></li>
   </ul>
+  <iframe id="tab1" src="${ordersUrl}" style="width:90%;height:500px"></iframe>
+  <iframe id="tab2" src="${productsUrl}" style="width:90%;height:500px"></iframe>
 </div>
  
  
