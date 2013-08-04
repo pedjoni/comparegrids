@@ -35,7 +35,7 @@ Running the application
 
 Requirements
 ============
-- Order Management System (in further text 'System') is used to process orders for products
+- Order Management System (in further text 'System') is used to process orders for products 
 - System supports product maintenance (create, update, delete)
 - System will support auto-generation of the random orders
 - System will support manual creation of the orders
