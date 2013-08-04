@@ -1,7 +1,7 @@
 Comparegrids
 ============
 
-Sample order management application for comparing various JavaScript grid solutions.
+Sample application (order management system) for comparing various JavaScript grid solutions.
 
 Requirements (see details below) are defined to demonstrate several aspects of the grid:
 - pagination
