@@ -46,4 +46,4 @@ Requirements
 - System will support showing orders in real-time blotter (Content of the blotter will be refreshed periodically)
 - Line in blotter will represent one order
 - User can change status of the order
-- Order with different status will have different background color ('New' - Yellow; 'Processed' - Green; 'Errored' and 'Cancelled' - Red
+- Order with different status will have different background color ('New' - Yellow; 'Processed' - Green; 'Errored' and 'Cancelled' - Red)
