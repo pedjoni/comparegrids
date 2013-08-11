@@ -4,16 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/jqgrid")
-public class JQGridMediatorController {
+@RequestMapping("/demo1")
+public class Demo1MediatorController {
 
 	@RequestMapping
 	public String getHomePage() {
-		return "redirect:/jqgrid/main";
+		return "redirect:/demo1/main";
 	}
 	
-	@RequestMapping(value="/main")
-	public String getMainPage() {
-		return "jqgrid/main";
-	}
+//	@RequestMapping(value="/main")
+//	public String getMainPage() {
+//		return "demo1/main";
+//	}
 }

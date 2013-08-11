@@ -1,4 +1,4 @@
-Notes - JQGrid Based Implementation
+Notes - Demo1: JQGrid Based Implementation
 
 Issue #1: For displaying main menu, I wanted to use JQuery UI Tab with ajax content. In this scenario content for each tab will be loaded from separate URL. However that turned to have several drowbacks
 	- When more than one JQGrid is used, you have to ensure that each JQGrid is using unique set of IDs. It is not just one ID that is used for grid, but some other like #msgbox or #pager

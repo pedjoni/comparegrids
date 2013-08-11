@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/jqgrid/orders")
-public class JQGridOrderController {
+@RequestMapping("/demo1/orders")
+public class Demo1OrderController {
 	
 	private static final ThreadLocal<DateFormat> df
 			= new ThreadLocal<DateFormat>(){
@@ -58,7 +58,7 @@ public class JQGridOrderController {
 	
 	@RequestMapping
 	public String getOrdersPage() {
-		return "jqgrid/orders";
+		return "demo1/orders";
 	}
 	
 	@RequestMapping(value="/records", produces="application/json")

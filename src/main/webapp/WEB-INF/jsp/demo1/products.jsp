@@ -1,52 +1,36 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:url value="/jqgrid/orders/records" var="recordsUrl"/>
-<c:url value="/jqgrid/orders/create" var="addUrl"/>
-<c:url value="/jqgrid/orders/update" var="editUrl"/>
-<c:url value="/jqgrid/orders/delete" var="deleteUrl"/>
+<c:url value="/demo1/products/records" var="recordsUrl"/>
+<c:url value="/demo1/products/create" var="addUrl"/>
+<c:url value="/demo1/products/update" var="editUrl"/>
+<c:url value="/demo1/products/delete" var="deleteUrl"/>
 
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/jquery-ui/pepper-grinder/jquery-ui-1.10.3.custom.css"/>'/>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/ui.jqgrid-4.4.3.css"/>'/>
-	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/css/jqgrid/style.css"/>'/>
-	<style type="text/css">        
-        .newRow { background-color: #fff79a; background-image: none;}
-        .procRow { background-color: #a2ff99; background-image: none; }
-        .cancRow { color: #e60000; }
-        .errRow { background-color: #ffd1cc; color: #e60000; background-image: none;}
-    </style>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/demo1/css/jquery-ui/pepper-grinder/jquery-ui-1.10.3.custom.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/demo1/css/ui.jqgrid-4.4.3.css"/>'/>
+	<link rel="stylesheet" type="text/css" media="screen" href='<c:url value="/resources/demo1/css/style.css"/>'/>
 	
+	<script type='text/javascript' src='<c:url value="/resources/demo1/js/jquery-1.6.4.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/demo1/js/jquery-ui-1.10.3.custom.min.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/demo1/js/grid.locale-en-4.4.3.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/demo1/js/jquery.jqGrid.min.4.4.3.js"/>'></script>
+	<script type='text/javascript' src='<c:url value="/resources/demo1/js/custom.js"/>'></script>
 	
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-1.6.4.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery-ui-1.10.3.custom.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/grid.locale-en-4.4.3.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/jquery.jqGrid.min.4.4.3.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jqgrid/custom.js"/>'></script>
-	
-	<title>Order Records</title>
+	<title>Product Records</title>
 	
 	<script type='text/javascript'>
 	$(function() {
-		$("#grid1").jqGrid({
+		$("#grid2").jqGrid({
 		   	url:'${recordsUrl}',
 			datatype: 'json',
 			mtype: 'GET',
-		   	colNames:['Id', 'Product Id', 'Product Name', 'Price', 'Quantity', 'Date Received', 'Status'],
+		   	colNames:['Id', 'Product Name', 'Items Available', 'Price'],
 		   	colModel:[
-		   		{name:'id', index:'id', width:55, editable:false, editoptions:{readonly:true}, hidden:true},
-		   		{name:'product.id', index:'product.id', width:55, editable:true, editrules:{required:true}, editoptions:{size:10}, hidden:true},
-		   		{name:'product.name', index:'product.name', width:100, editable:false},
-		   		{name:'price', index:'price', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
-		   		{name:'quantity', index:'quantity', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
-		   		{name:'recievedDate', index:'recievedDate', width:100, editable:false, 
-		   			formatter: function (cellval, opts) {
-		   				var date = new Date(cellval);
-						opts = $.extend({}, $.jgrid.formatter.date, opts);
-						return $.fmatter.util.DateFormat("", date, 'd-M-Y', opts);
-					}
-				},
-		   		{name:'status', index:'status', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}, edittype:'select', formatter:'select', editoptions:{value:{1:'New',2:'Processed',3:'Canceled',4:'Errored'}}}
+		   		{name:'id',index:'id', width:25, editable:false, editoptions:{readonly:true, size:10}, hidden:false},
+		   		{name:'name',index:'name', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
+		   		{name:'itemsAvailable',index:'itemsAvailable', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}},
+		   		{name:'price',index:'price', width:100, editable:true, editrules:{required:true}, editoptions:{size:10}}
 		   	],
 		   	postData: {},
 			rowNum:10,
@@ -54,9 +38,8 @@
 		   	height: 240,
 		   	autowidth: true,
 			rownumbers: true,
-		   	pager: '#pager1',
+		   	pager: '#pager2',
 		   	sortname: 'id',
-		   	gridview: true,
 		    viewrecords: true,
 		    sortorder: "asc",
 		    caption:"Records",
@@ -71,21 +54,10 @@
 		        repeatitems: false,
 		        cell: "cell",
 		        id: "id"
-		    },
-		    rowattr: function (rd) {
-	            if (rd.status === 1) {
-	            	return {"class": "newRow"};
-	            } else if (rd.status === 2) {
-	                return {"class": "procRow"};
-	            } else if (rd.status === 3) {
-	                return {"class": "cancRow"};
-	            } else if (rd.status === 4) {
-	                return {"class": "errRow"};
-	            }
-	        }
+		    }
 		});
 
-		$("#grid1").jqGrid('navGrid','#pager1',
+		$("#grid2").jqGrid('navGrid','#pager2',
 				{edit:false, add:false, del:false, search:true},
 				{}, {}, {}, 
 				{ 	// search
@@ -96,7 +68,7 @@
 				}
 		);
 		
-		$("#grid1").navButtonAdd('#pager1',
+		$("#grid2").navButtonAdd('#pager2',
 				{ 	caption:"Add", 
 					buttonicon:"ui-icon-plus", 
 					onClickButton: addRow,
@@ -106,7 +78,7 @@
 				} 
 		);
 		
-		$("#grid1").navButtonAdd('#pager1',
+		$("#grid2").navButtonAdd('#pager2',
 				{ 	caption:"Edit", 
 					buttonicon:"ui-icon-pencil", 
 					onClickButton: editRow,
@@ -116,7 +88,7 @@
 				} 
 		);
 		
-		$("#grid1").navButtonAdd('#pager1',
+		$("#grid2").navButtonAdd('#pager2',
 			{ 	caption:"Delete", 
 				buttonicon:"ui-icon-trash", 
 				onClickButton: deleteRow,
@@ -127,21 +99,16 @@
 		);
 
 		// Toolbar Search
-		$("#grid1").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
-		
-		var grid1intvlId = setInterval(
-			function() {
-				$("#grid1").trigger("reloadGrid",[{current:true}]); // current:true preserves the selection
-			},
-			10*1000
-		); // intervalId can be used to stop the grid reload later: clearInterval(intervalId);
+		$("#grid2").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true, defaultSearch:"cn"});
 	});
 
 	function addRow() {
-   		$(this).jqGrid('setColProp', 'product.id', {hidden:false});
-   		$(this).jqGrid('setColProp', 'status', {editable:false, hidden:true});
+   		$("#grid2").jqGrid('setColProp', 'name', {editoptions:{readonly:false, size:10}});
+   		$("#grid2").jqGrid('setColProp', 'itemsAvailable', {editrules:{required:true}});
+   		$("#grid2").jqGrid('setColProp', 'price', {editrules:{required:true}});
+   		
 		// Get the currently selected row
-		$('#grid1').jqGrid('editGridRow','new',
+		$('#grid2').jqGrid('editGridRow','new',
 	    		{ 	url: '${addUrl}', 
 					editData: {},
 	                serializeEditData: function(data){ 
@@ -166,8 +133,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 				        }  else {
-				        	$('#msgbox1').text('Entry has been added successfully');
-							$('#msgbox1').dialog( 
+				        	$('#msgbox2').text('Entry has been added successfully');
+							$('#msgbox2').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -181,20 +148,20 @@
 						return [result.success, errors, newId];
 					}
 	    		});
-	    $(this).jqGrid('setColProp', 'product.id', {hidden:true});
-	    $(this).jqGrid('setColProp', 'status', {editable:true, hidden:false});
 
+   		// $("#grid2").jqGrid('setColProp', 'password', {hidden: true});
 	} // end of addRow
 
 
 	function editRow() {
-	
+   		$("#grid2").jqGrid('setColProp', 'name', {editoptions:{readonly:true, size:10}});
+   		
 		// Get the currently selected row
-		var row = $('#grid1').jqGrid('getGridParam','selrow');
+		var row = $('#grid2').jqGrid('getGridParam','selrow');
 		
 		if( row != null ) {
 		
-			$('#grid1').jqGrid('editGridRow', row,
+			$('#grid2').jqGrid('editGridRow', row,
 				{	url: '${editUrl}', 
 					editData: {},
 			        recreateForm: true,
@@ -215,8 +182,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 			            }  else {
-			            	$('#msgbox1').text('Entry has been edited successfully');
-							$('#msgbox1').dialog( 
+			            	$('#msgbox2').text('Entry has been edited successfully');
+							$('#msgbox2').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -231,8 +198,8 @@
 					}
 				});
 		} else {
-			$('#msgbox1').text('You must select a record first!');
-			$('#msgbox1').dialog( 
+			$('#msgbox2').text('You must select a record first!');
+			$('#msgbox2').dialog( 
 					{	title: 'Error',
 						modal: true,
 						buttons: {"Ok": function()  {
@@ -244,11 +211,11 @@
 	
 	function deleteRow() {
 		// Get the currently selected row
-	    var row = $('#grid1').jqGrid('getGridParam','selrow');
+	    var row = $('#grid2').jqGrid('getGridParam','selrow');
 
 	    // A pop-up dialog will appear to confirm the selected action
 		if( row != null ) 
-			$('#grid1').jqGrid( 'delGridRow', row,
+			$('#grid2').jqGrid( 'delGridRow', row,
 	          	{	url:'${deleteUrl}', 
 					recreateForm: true,
 				    beforeShowForm: function(form) {
@@ -262,9 +229,9 @@
 	          		reloadAfterSubmit:true,
 	          		closeAfterDelete: true,
 	          		serializeDelData: function (postdata) {
-		          	      var rowdata = $('#grid1').getRowData(postdata.id);
+		          	      var rowdata = $('#grid2').getRowData(postdata.id);
 		          	      // append postdata with any information 
-		          	      return {id: postdata.id, oper: postdata.oper};
+		          	      return {id: postdata.id, oper: postdata.oper, name: rowdata.name};
 		          	},
 	          		afterSubmit : function(response, postdata) 
 					{ 
@@ -276,8 +243,8 @@
 								errors +=  result.message[i] + "<br/>";
 							}
 			            }  else {
-			            	$('#msgbox1').text('Entry has been deleted successfully');
-							$('#msgbox1').dialog( 
+			            	$('#msgbox2').text('Entry has been deleted successfully');
+							$('#msgbox2').dialog( 
 									{	title: 'Success',
 										modal: true,
 										buttons: {"Ok": function()  {
@@ -292,8 +259,8 @@
 					}
 	          	});
 		else {
-			$('#msgbox1').text('You must select a record first!');
-			$('#msgbox1').dialog( 
+			$('#msgbox2').text('You must select a record first!');
+			$('#msgbox2').dialog( 
 					{	title: 'Error',
 						modal: true,
 						buttons: {"Ok": function()  {
@@ -306,13 +273,13 @@
 </head>
 
 <body>
-	<h1 id='banner1'>Order Inventory</h1>
+	<h1 id='banner2'>Product Inventory</h1>
 	
-	<div id='jqgrid1'>
-		<table id='grid1'></table>
-		<div id='pager1'></div>
+	<div id='jqgrid2'>
+		<table id='grid2'></table>
+		<div id='pager2'></div>
 	</div>
 	
-	<div id='msgbox1' title='' style='display:none'></div>
+	<div id='msgbox2' title='' style='display:none'></div>
 </body>
 </html>
