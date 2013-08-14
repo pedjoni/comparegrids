@@ -12,8 +12,8 @@ public class Demo1MediatorController {
 		return "redirect:/demo1/main";
 	}
 	
-//	@RequestMapping(value="/main")
-//	public String getMainPage() {
-//		return "demo1/main";
-//	}
+	@RequestMapping(value="/main")
+	public String getMainPage() {
+		return "demo1/main";
+	}
 }
