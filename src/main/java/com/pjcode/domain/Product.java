@@ -15,6 +15,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	// test commit from page
 	@Column(unique=true)
 	private String name;
 	private Long itemsAvailable;
